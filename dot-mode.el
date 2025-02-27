@@ -338,7 +338,7 @@
                                 (this-command-keys-vector))))
    ;; Should we ignore this key sequence? (is it an undo?)
    ((and dot-mode-ignore-undo
-         (member this-command '(advertised-undo undo undo-tree-undo undo-tree-redo)))
+         (member this-command '(advertised-undo undo undo-only undo-redo undo-tree-undo undo-tree-redo)))
     (setq dot-mode-cmd-keys nil))
    ;; signal to read later (in `dot-mode-after-change')
    (t (setq dot-mode-cmd-keys t))))
