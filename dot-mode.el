@@ -1,4 +1,4 @@
-;;; dot-mode.el --- minor mode to repeat typing or commands
+;;; dot-mode.el --- Minor mode to repeat typing or commands -*- lexical-binding: t -*-
 
 ;;; Copyright (C) 1995 James Gillespie
 ;;; Copyright (C) 2000 Robert Wyrick (rob@wyrick.org)
@@ -274,7 +274,7 @@
   ;; is called between each argument.
   (push (minibuffer-contents) dot-mode-minibuffer-input))
 
-(defun dot-mode-after-change (start end prevlen)
+(defun dot-mode-after-change (_start _end _prevlen)
   "Dot mode's `after-change-functions' hook"
   ;; By the time we get here, `dot-mode-pre-hook' has already setup
   ;; `dot-mode-cmd-keys.'  It'll be a `vector', `t', or `nil'.
@@ -454,12 +454,16 @@ Then it can be called with `call-last-kbd-macro', named with
 (define-minor-mode dot-mode
   "Dot mode mimics the `.' function in vi, repeating sequences of
 commands and/or typing delimited by motion events.  Use `C-.'
-rather than just `.'."  nil " Dot"
+rather than just `.'."
+  :global nil
+  :lighter " Dot"
+  :keymap
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-.")   'dot-mode-execute)
     (define-key map (kbd "C-M-.") 'dot-mode-override)
     (define-key map (kbd "C-c .") 'dot-mode-copy-to-last-kbd-macro)
     map)
+
   (if (not dot-mode)
       (dot-mode-remove-hooks)
     (dot-mode-add-hooks)
@@ -506,7 +510,7 @@ rather than just `.'."  nil " Dot"
 ;;;###autoload
 (defalias 'turn-on-dot-mode 'dot-mode-on)
 ;;;###autoload
-(define-global-minor-mode global-dot-mode dot-mode dot-mode-on)
+(define-globalized-minor-mode global-dot-mode dot-mode dot-mode-on)
 
 (provide 'dot-mode)
 
