@@ -8,7 +8,7 @@
 ;; Keywords: convenience
 ;; Version: 1.13
 ;; URL: https://github.com/wyrickre/dot-mode
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "29.1"))
 
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -416,7 +416,9 @@ Then it can be called with `call-last-kbd-macro', named with
     (when dot-mode-verbose
       (message "Repeating \"%s\"" (dot-mode-buffer-to-string)))
     (condition-case nil
-        (execute-kbd-macro dot-mode-cmd-buffer)
+        ;; Allow the user to undo in a single step.
+        (with-undo-amalgamate
+          (execute-kbd-macro dot-mode-cmd-buffer))
       ((error quit exit)
        (setq dot-mode-cmd-buffer nil
              dot-mode-state      0)
