@@ -320,7 +320,7 @@
 
   (cond
    ;; Is this an `execute-extended-command' or `smex'?
-   ((member this-command '(execute-extended-command smex))
+   ((memq this-command '(execute-extended-command smex))
     (setq dot-mode-minibuffer-input nil
           ;; Must get this (M-x) now!  It's gone later.
           dot-mode-cmd-keys         (this-command-keys-vector)
@@ -338,7 +338,7 @@
                                 (this-command-keys-vector))))
    ;; Should we ignore this key sequence? (is it an undo?)
    ((and dot-mode-ignore-undo
-         (member this-command '(advertised-undo undo undo-tree-undo undo-tree-redo)))
+         (memq this-command '(advertised-undo undo undo-tree-undo undo-tree-redo)))
     (setq dot-mode-cmd-keys nil))
    ;; signal to read later (in `dot-mode-after-change')
    (t (setq dot-mode-cmd-keys t))))
